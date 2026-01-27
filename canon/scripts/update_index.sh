@@ -38,10 +38,27 @@ echo ""
 # ================================================================
 
 echo "📥 Syncing with remote..."
+
+# Stash any local changes temporarily
+STASHED=false
+if ! git diff-index --quiet HEAD --; then
+  git stash push -q -u -m "Auto-stash before index update"
+  STASHED=true
+fi
+
 git pull --rebase --quiet || {
   echo "❌ Error: Failed to pull latest changes"
+  if [ "$STASHED" = true ]; then
+    git stash pop -q
+  fi
   exit 1
 }
+
+# Restore stashed changes if any
+if [ "$STASHED" = true ]; then
+  git stash pop -q 2>/dev/null || true
+fi
+
 echo "✅ Synced with remote"
 echo ""
 
