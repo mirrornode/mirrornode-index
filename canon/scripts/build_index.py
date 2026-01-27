@@ -64,6 +64,12 @@ STATUS_RULES = {
     "ARCHIVE": ["archive", "deprecated", "legacy", "old"],
 }
 
+def empty_audit_block():
+    return {
+        "present": False,
+        "latest": None,
+        "history": []
+    }
 def detect_status(repo: Dict[str, Any]) -> str:
     """Detect repository status based on name and topics."""
     name = repo.get("name", "").lower()
@@ -278,6 +284,12 @@ def build_index() -> None:
             "license": repo.get("license", {}).get("spdx_id") if repo.get("license") else None,
             "summary_path": f"summaries/{name}.md",
             "components_path": f"components/{name}.json",
+            "audit": {
+                "present": False,
+                "latest": None,
+                "history": []
+            }
+  
         })
 
     status_order = ["REVENUE", "CORE", "SURFACE", "EXPERIMENT", "ARCHIVE"]
