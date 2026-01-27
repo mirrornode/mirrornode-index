@@ -2,7 +2,8 @@
 """
 MIRRORNODE Repository Indexer v0.3
 
-Discovers, indexes, and catalogs all repositories owned by the mirrornode user.
+Discovers, indexes, and catalogs all repositories owned by the mirrornode 
+user.
 Generates structured metadata for navigation, governance, and automation.
 """
 
@@ -11,6 +12,7 @@ import sys
 import json
 import logging
 import time
+import hashlib
 import requests
 from pathlib import Path
 from typing import Dict, List, Optional, Any
@@ -70,6 +72,86 @@ def empty_audit_block():
         "latest": None,
         "history": []
     }
+
+# ================================================================
+# AUDIT DISCOVERY
+# ================================================================
+
+AUDIT_PATHS = [
+    "audits",
+    "osiris/audits",
+]
+
+def sha256_of_dict(d: dict) -> str:
+    """Compute deterministic SHA-256 hash of dictionary."""
+    canonical = json.dumps(d, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(canonical.encode()).hexdigest()
+
+def summarize_audit(artifact: dict) -> dict:
+    """Extract summary statistics from audit artifact."""
+    risks_by_severity = {k: 0 for k in ["CRITICAL", "HIGH", "MEDIUM", 
+"LOW", "INFO"]}
+    for r in artifact.get("risks", []):
+        sev = r.get("severity")
+        if sev in risks_by_severity:
+            risks_by_severity[sev] += 1
+
+    return {
+        "claims": len(artifact.get("claims", [])),
+        "findings": len(artifact.get("findings", [])),
+        "risks": risks_by_severity,
+    }
+
+def discover_audits(repo_root: Path) -> list:
+    """
+    Discover audit artifacts under known paths.
+    Returns a list of validated audit summaries.
+    """
+    discovered = []
+
+    for rel in AUDIT_PATHS:
+        base = repo_root / rel
+        if not base.exists() or not base.is_dir():
+            continue
+
+        for p in sorted(base.glob("*.json")):
+            try:
+                with p.open("r") as f:
+                    artifact = json.load(f)
+
+                # Minimal required fields (v1)
+                meta = artifact.get("metadata", {})
+                run_id = meta.get("run_id")
+                ts = meta.get("timestamp")
+                schema_version = meta.get("version")
+
+                if not (run_id and ts and schema_version):
+                    continue
+
+                artifact_hash = sha256_of_dict(artifact)
+                summary = summarize_audit(artifact)
+
+                discovered.append({
+                    "run_id": run_id,
+                    "timestamp": ts,
+                    "schema_version": schema_version,
+                    "artifact_hash": f"sha256:{artifact_hash}",
+                    "artifact_url": str(p),
+                    "summary": summary,
+                })
+
+            except Exception:
+                # Deterministic behavior: ignore invalid files silently
+                continue
+
+    # newest first by timestamp (ISO-8601 sorts lexicographically)
+    discovered.sort(key=lambda x: x["timestamp"], reverse=True)
+    return discovered
+
+# ================================================================
+# STATUS & CLASSIFICATION
+# ================================================================
+
 def detect_status(repo: Dict[str, Any]) -> str:
     """Detect repository status based on name and topics."""
     name = repo.get("name", "").lower()
@@ -263,6 +345,16 @@ def build_index() -> None:
         write_summary(repo, langs)
         write_components(repo)
 
+        # Discover audits
+        repo_root = Path.cwd() / name
+        audits = discover_audits(repo_root)
+
+        audit_block = {
+            "present": bool(audits),
+            "latest": audits[0] if audits else None,
+            "history": audits
+        }
+
         index.append({
             "name": name,
             "canonical_name": name.lower().replace("-", "_"),
@@ -281,15 +373,11 @@ def build_index() -> None:
             "updated_at": repo.get("updated_at"),
             "pushed_at": repo.get("pushed_at"),
             "default_branch": repo.get("default_branch"),
-            "license": repo.get("license", {}).get("spdx_id") if repo.get("license") else None,
+            "license": repo.get("license", {}).get("spdx_id") if 
+repo.get("license") else None,
             "summary_path": f"summaries/{name}.md",
             "components_path": f"components/{name}.json",
-            "audit": {
-                "present": False,
-                "latest": None,
-                "history": []
-            }
-  
+            "audit": audit_block
         })
 
     status_order = ["REVENUE", "CORE", "SURFACE", "EXPERIMENT", "ARCHIVE"]
@@ -319,3 +407,4 @@ if __name__ == "__main__":
     except Exception:
         logger.exception("Fatal error")
         sys.exit(1)
+
