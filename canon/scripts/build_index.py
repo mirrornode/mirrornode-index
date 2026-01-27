@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-MIRRORNODE Repository Indexer v0.2
+MIRRORNODE Repository Indexer v0.3
 
-Discovers, indexes, and catalogs all repositories in the mirrornode organization.
+Discovers, indexes, and catalogs all repositories owned by the mirrornode user.
 Generates structured metadata for navigation, governance, and automation.
 """
 
@@ -21,7 +21,7 @@ from collections import defaultdict
 # CONFIGURATION
 # ================================================================
 
-ORG = "mirrornode"
+OWNER = "mirrornode"  # GitHub username
 API_BASE = "https://api.github.com"
 TOKEN = os.getenv("GITHUB_TOKEN")
 
@@ -123,14 +123,14 @@ def github_get(url: str, retries: int = 3) -> Any:
     return None
 
 def list_repos() -> List[Dict[str, Any]]:
-    """Fetch all repositories from the organization."""
+    """Fetch all repositories from the user account."""
     repos: List[Dict[str, Any]] = []
     page = 1
 
-    logger.info(f"Fetching repositories for org: {ORG}")
+    logger.info(f"Fetching repositories for user: {OWNER}")
 
     while True:
-        url = f"{API_BASE}/orgs/{ORG}/repos?per_page=100&page={page}&sort=updated"
+        url = f"{API_BASE}/users/{OWNER}/repos?per_page=100&page={page}&sort=updated"
         batch = github_get(url)
         if not batch:
             break
@@ -144,7 +144,7 @@ def list_repos() -> List[Dict[str, Any]]:
 
 def get_repo_languages(repo_name: str) -> Dict[str, int]:
     """Fetch language statistics for a repository."""
-    url = f"{API_BASE}/repos/{ORG}/{repo_name}/languages"
+    url = f"{API_BASE}/repos/{OWNER}/{repo_name}/languages"
     return github_get(url) or {}
 
 # ================================================================
@@ -286,10 +286,10 @@ def build_index() -> None:
     REPOS_JSON.write_text(json.dumps(index, indent=2))
     INDEX_META.write_text(json.dumps({
         "generated_at": datetime.now(timezone.utc).isoformat(),
-        "org": ORG,
+        "owner": OWNER,
         "total_repos": len(index),
         "status_breakdown": dict(stats),
-        "version": "0.2.0",
+        "version": "0.3.0",
     }, indent=2))
 
     logger.info("MIRRORNODE INDEX BUILD COMPLETE")
