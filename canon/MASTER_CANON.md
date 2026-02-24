@@ -1,3 +1,12 @@
+<!--
+CANON: MASTER (INTERNAL, AUTHORITATIVE)
+Describes: system state, verified capabilities, boundaries, roles, success criteria.
+PUBLIC_CANON.md is derived from this file.
+
+Pillars of ROTAN (Copilot Space Instructions) governs assistant behavior and runtime contract style.
+If conflict: MASTER_CANON.md content wins; otherwise ask operator.
+-->
+
 # MIRRORNODE — Master Canon (v1.0)
 
 ## What MIRRORNODE Is
