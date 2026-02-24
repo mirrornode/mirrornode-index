@@ -1,3 +1,8 @@
+<!--
+CANON: PUBLIC (EXTERNAL, DERIVED)
+Derived from MASTER_CANON.md; do not add capabilities not verified in MASTER.
+-->
+
 # MIRRORNODE — Public Canon
 
 ## What MIRRORNODE Does
