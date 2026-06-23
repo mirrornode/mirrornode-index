@@ -1,18 +1,18 @@
 # Copilot Instructions — mirrornode-index
 
-## System Context
+## Repo Context
+This is a documentation index repository. No application code lives here.
 
-This is the canon index repo for MIRRORNODE. It contains governance documents only — no runnable code, no agent runtimes.
+## Rules
+- Only create or edit Markdown, YAML, or lightweight index metadata.
+- Keep repo inventory grounded in verified state.
+- Do not generate code, tests, or agent implementations.
+- When documentation and implementation conflict, inspect implementation before proposing changes.
+- Do not assume documentation is current.
 
-## Hard Rules
+## Commit Convention
+type(scope): description
 
-- **This repo is documentation only.** Do not add runnable services or agent dispatch logic.
-- **Never speculate.** All canon documents must reflect verified system behavior.
-- **Deletions require audit trails.** Do not delete `MASTER_CANON.md`, `BOUNDARY_LEDGER.md`, or `CANON_DIFF_REPORT.md` without a recorded reason.
-- **Never reference non-real routes:** `/system/execute`, `/system/replay`, `/execute-task`.
-
-## Conventions
-
-- All changes to canon documents should be accompanied by a `CANON_DIFF_REPORT.md` update
-- Markdown only — no code files at the repo root
-- Scripts in `canon/scripts/` are build/index utilities only
+Examples:
+- docs(index): add platform production mapping
+- chore(index): update repo status table
