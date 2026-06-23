@@ -1,11 +1,10 @@
-# MIRRORNODE — Agents (mirrornode-index)
+# Agents — mirrornode-index
 
-This repo does not host agent runtimes. It is the canon index for the MIRRORNODE lattice.
+## Resident Runtime
+No agent runtime is hosted in this repository.
 
-## Agent Interaction
+## Reference
+For the canonical agent registry, see MIRRORNODE-CORE-HUB.
 
-This repo is read by agents and humans alike as the authoritative source of system truth. It does not dispatch commands or call agent endpoints.
-
-## Full Agent Registry
-
-See `AGENTS.md` in `mirrornode-backend` for the complete agent registry (LUCIAN, OSIRIS, HERMES, THOTH, THEIA, PTAH, EVE).
+## Rule
+This repo may index agents, but it does not define or expand agent authority.

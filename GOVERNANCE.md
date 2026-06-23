@@ -1,22 +1,20 @@
-# MIRRORNODE — Governance (mirrornode-index)
+# Governance — mirrornode-index
 
-**Authority:** `mirrornode/MIRRORNODE-CORE-HUB`
+## Decision Authority
+Index entries must reflect actual repo state. Changes that add, remove, or reclassify repos require review.
 
-## Principles
+## Branch Model
+- main — canonical index state.
+- Structural updates should use pull requests.
+- Minor reference updates may be direct only when authorized.
 
-1. This repo contains governance documents, not runnable code.
-2. Canon is never deleted silently — deletions require a `CANON_DIFF_REPORT.md` entry.
-3. `MASTER_CANON.md` is the source of truth; `PUBLIC_CANON.md` and `INTERNAL_CANON.md` must be consistent with it.
-4. Speculative or aspirational claims must not appear in canon documents.
+## Prohibited Actions
+- Do not list repos that do not exist or cannot be verified.
+- Do not mark a repo production without deployment evidence.
+- Do not mark a repo deprecated without a corresponding note or governance record.
+- Do not commit secrets.
 
-## Change Protocol
+## Documentation Priority
+If repository structure, runtime behavior, deployment configuration, or system contracts differ from documentation, the discrepancy must be corrected.
 
-- All changes to `MASTER_CANON.md` require a new or updated `CANON_DIFF_REPORT.md` entry.
-- `BOUNDARY_LEDGER.md` changes must document what boundary changed and why.
-- Do not delete canon files without a recorded audit trail.
-
-## Build Gate
-
-- [ ] `CANON_DIFF_REPORT.md` updated if `MASTER_CANON.md` changed
-- [ ] No speculative claims in any canon file
-- [ ] `BOUNDARY_LEDGER.md` consistent with current scope
+Documentation describes reality; reality does not change to satisfy documentation.
