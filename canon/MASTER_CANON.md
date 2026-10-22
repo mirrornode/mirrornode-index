@@ -1,13 +1,25 @@
 <!--
-CANON: MASTER (INTERNAL, AUTHORITATIVE)
-Describes: system state, verified capabilities, boundaries, roles, success criteria.
-PUBLIC_CANON.md is derived from this file.
+CANON: MASTER (INTERNAL TECHNICAL/HISTORICAL REFERENCE)
+Describes: recorded system state, capabilities, boundaries, roles, success criteria.
+PUBLIC_CANON.md is derived from this file; derivation is not current verification.
 
-Pillars of ROTAN (Copilot Space Instructions) governs assistant behavior and runtime contract style.
-If conflict: MASTER_CANON.md content wins; otherwise ask operator.
+Governance source: MIRRORNODE-CORE-HUB, as designated in its CANONICAL_SOURCES.md.
+Pillars of ROTAN (Copilot Space Instructions) is a supporting behavioral reference;
+this header grants it no cross-repository precedence.
+This file does not override CORE-HUB governance or establish agent authority.
+Preserve conflicting claims and escalate to the human Operator for disposition
+within applicable review and security boundaries.
 -->
 
 # MIRRORNODE — Master Canon (v1.0)
+
+## Authority and evidence boundary
+
+This file is a technical/historical reference in the cross-repository index. [CORE-HUB's source mapping](https://github.com/mirrornode/MIRRORNODE-CORE-HUB/blob/aac3b5b473b12e3134224b316b6810de9a15f416/CANONICAL_SOURCES.md) designates MIRRORNODE-CORE-HUB as the governance source and this repository as the cross-repository index. The human Operator holds final conflict-disposition authority within applicable governance and security boundaries; this index cannot ratify policy, expand agent authority, or authorize execution or release.
+
+The conflicting global-precedence header is preserved as historical evidence in prior blob `a24796659196239ddb980fca9e7b742864c2831d`. GOV-01 is tracked in [CORE-HUB PR #67](https://github.com/mirrornode/MIRRORNODE-CORE-HUB/pull/67); that proposal is not treated as merged or ratified here. GOV-01 remains open until the separate reviewed corrections receive the required dispositions, are merged, and are verified on their destination branches.
+
+This authority correction does not re-verify the implementation, deployment, commerce, or snapshot claims below. Their historical verification labels do not establish current operational status. If evidence conflicts, retain both claims and seek an explicit Operator disposition rather than giving this file automatic precedence.
 
 ## What MIRRORNODE Is
 
