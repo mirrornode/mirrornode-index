@@ -1,6 +1,6 @@
 # MIRRORNODE Index
 
-This repository is the authoritative index for the MIRRORNODE system.
+This repository is the cross-repository index and technical/historical reference for the MIRRORNODE system. Governance is sourced from MIRRORNODE-CORE-HUB, as designated in its [CANONICAL_SOURCES.md](https://github.com/mirrornode/MIRRORNODE-CORE-HUB/blob/aac3b5b473b12e3134224b316b6810de9a15f416/CANONICAL_SOURCES.md). Index entries do not override governance, grant agent authority, or authorize release. Preserve source conflicts for human Operator disposition within applicable review and security boundaries.
 
 It contains:
 - Canonical descriptions of the system

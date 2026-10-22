@@ -15,7 +15,7 @@ MIRRORNODE is a governed execution system for coordinating AI agents across mult
 - No unverified capability claims in external communications.
 - All production changes require explicit approval.
 - Metrics and logs are treated as audit-grade evidence.
-- The sealed reference state serves as ground truth in disputes.
+- The sealed reference state is a technical comparison baseline where verified; it does not override current CORE-HUB governance or human Operator conflict disposition within applicable security boundaries.
 
 **Operational Discipline**
 - Secrets, tokens, and environment-specific details never appear in shared documentation.
